@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/event.dart';
+import '../models/event_category.dart';
 
 Future<Event?> showAddEventDialog(
   BuildContext context, {
@@ -22,6 +23,9 @@ Future<Event?> showAddEventDialog(
           minute: event.dateTime.minute,
         )
       : TimeOfDay.now();
+
+  EventCategory selectedCategory =
+      event?.category ?? EventCategory.general;
 
   final result = await showDialog<Event>(
     context: context,
@@ -45,7 +49,36 @@ Future<Event?> showAddEventDialog(
                       hintText: 'Masalan: O‘g‘lim tug‘ilgan kun',
                     ),
                   ),
+
                   const SizedBox(height: 16),
+
+                  DropdownButtonFormField<EventCategory>(
+                    initialValue: selectedCategory,
+                    decoration: const InputDecoration(
+                      labelText: 'Kategoriya',
+                      prefixIcon: Icon(Icons.category),
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: EventCategory.general,
+                        child: Text('Oddiy voqea'),
+                      ),
+                      DropdownMenuItem(
+                        value: EventCategory.birthday,
+                        child: Text('Tug‘ilgan kun'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        setDialogState(() {
+                          selectedCategory = value;
+                        });
+                      }
+                    },
+                  ),
+
+                  const SizedBox(height: 16),
+
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: const Icon(Icons.calendar_today),
@@ -70,6 +103,7 @@ Future<Event?> showAddEventDialog(
                       }
                     },
                   ),
+
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: const Icon(Icons.access_time),
@@ -90,6 +124,7 @@ Future<Event?> showAddEventDialog(
                       }
                     },
                   ),
+
                   TextField(
                     controller: descriptionController,
                     maxLines: 3,
@@ -132,12 +167,11 @@ Future<Event?> showAddEventDialog(
                       dateTime: dateTime,
                       description:
                           descriptionController.text.trim(),
+                      category: selectedCategory,
                     ),
                   );
                 },
-                child: Text(
-                  isEditing ? 'Saqlash' : 'Saqlash',
-                ),
+                child: const Text('Saqlash'),
               ),
             ],
           );

@@ -1,0 +1,4 @@
+enum EventCategory {
+  general,
+  birthday,
+}
