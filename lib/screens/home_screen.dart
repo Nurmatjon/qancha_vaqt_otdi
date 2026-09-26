@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'add_event_dialog.dart';
 import '../models/event.dart';
 import '../models/event_category.dart';
@@ -10,7 +11,9 @@ import '../services/event_storage_service.dart';
 import '../services/elapsed_time_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Future<void> Function(String languageCode) onLocaleChanged;
+
+  const HomeScreen({super.key, required this.onLocaleChanged});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -87,25 +90,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _deleteEvent(int index) async {
     final event = _events[index];
+    final l10n = AppLocalizations.of(context)!;
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Voqeani o‘chirish'),
-          content: Text('“${event.title}” voqeasini o‘chirishni xohlaysizmi?'),
+          title: Text(l10n.deleteEventTitle),
+          content: Text(l10n.deleteEventMessage(event.title)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context, false);
               },
-              child: const Text('Bekor qilish'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              child: const Text('O‘chirish'),
+              child: Text(l10n.delete),
             ),
           ],
         );
@@ -137,9 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
       DateTime.now(),
     );
 
-    return '${elapsed.years} yil '
-        '${elapsed.months} oy '
-        '${elapsed.days} kun\n'
+    final l10n = AppLocalizations.of(context)!;
+
+    return '${l10n.years(elapsed.years)} '
+        '${l10n.months(elapsed.months)} '
+        '${l10n.days(elapsed.days)}\n'
         '${elapsed.hours.toString().padLeft(2, '0')}:'
         '${elapsed.minutes.toString().padLeft(2, '0')}:'
         '${elapsed.seconds.toString().padLeft(2, '0')}';
@@ -156,16 +162,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Qancha vaqt o‘tdi?')),
+      appBar: AppBar(
+        title: Text(l10n.appTitle),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: widget.onLocaleChanged,
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: 'uz', child: Text('🇺🇿 O‘zbek')),
+              PopupMenuItem(value: 'ru', child: Text('🇷🇺 Русский')),
+              PopupMenuItem(value: 'en', child: Text('🇬🇧 English')),
+            ],
+          ),
+        ],
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _events.isEmpty
-          ? const Center(
-              child: Text(
-                'Hali hech qanday voqea qo‘shilmagan',
-                style: TextStyle(fontSize: 18),
-              ),
+          ? Center(
+              child: Text(l10n.noEvents, style: const TextStyle(fontSize: 18)),
             )
           : ListView.separated(
               padding: const EdgeInsets.all(16),
@@ -194,9 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleAvatar(child: Icon(_getEventIcon(event))),
-
                               const SizedBox(width: 12),
-
                               Expanded(
                                 child: Text(
                                   event.title,
@@ -206,7 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-
                               PopupMenuButton<String>(
                                 padding: EdgeInsets.zero,
                                 onSelected: (value) {
@@ -216,14 +230,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     _deleteEvent(index);
                                   }
                                 },
-                                itemBuilder: (context) => const [
+                                itemBuilder: (context) => [
                                   PopupMenuItem<String>(
                                     value: 'edit',
                                     child: Row(
                                       children: [
-                                        Icon(Icons.edit),
-                                        SizedBox(width: 8),
-                                        Text('Tahrirlash'),
+                                        const Icon(Icons.edit),
+                                        const SizedBox(width: 8),
+                                        Text(l10n.edit),
                                       ],
                                     ),
                                   ),
@@ -231,9 +245,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     value: 'delete',
                                     child: Row(
                                       children: [
-                                        Icon(Icons.delete_outline),
-                                        SizedBox(width: 8),
-                                        Text('O‘chirish'),
+                                        const Icon(Icons.delete_outline),
+                                        const SizedBox(width: 8),
+                                        Text(l10n.delete),
                                       ],
                                     ),
                                   ),
@@ -241,9 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-
                           const SizedBox(height: 12),
-
                           Text(
                             _formatElapsedTime(event),
                             style: const TextStyle(
@@ -251,9 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
                           const SizedBox(height: 6),
-
                           Text(
                             _formatDateTime(event.dateTime),
                             style: TextStyle(

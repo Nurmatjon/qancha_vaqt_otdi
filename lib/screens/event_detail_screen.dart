@@ -6,14 +6,12 @@ import '../models/event.dart';
 import '../models/event_category.dart';
 import '../services/birthday_insights_service.dart';
 import '../services/elapsed_time_service.dart';
+import '../l10n/app_localizations.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final Event event;
 
-  const EventDetailScreen({
-    super.key,
-    required this.event,
-  });
+  const EventDetailScreen({super.key, required this.event});
 
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();
@@ -26,14 +24,11 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) {
-        if (!mounted) return;
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) return;
 
-        setState(() {});
-      },
-    );
+      setState(() {});
+    });
   }
 
   @override
@@ -64,6 +59,8 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final elapsed = ElapsedTimeService.calculate(
       widget.event.dateTime,
       DateTime.now(),
@@ -71,17 +68,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
 
     final theme = Theme.of(context);
 
-    final birthdayInsights =
-        widget.event.category == EventCategory.birthday
-            ? BirthdayInsightsService.calculate(
-                widget.event.dateTime,
-              )
-            : null;
+    final birthdayInsights = widget.event.category == EventCategory.birthday
+        ? BirthdayInsightsService.calculate(widget.event.dateTime)
+        : null;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.event.title),
-      ),
+      appBar: AppBar(title: Text(widget.event.title)),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -107,7 +99,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                   child: Column(
                     children: [
                       Text(
-                        '${elapsed.years} yil',
+                        l10n.years(elapsed.years),
                         style: theme.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -116,8 +108,8 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       const SizedBox(height: 8),
 
                       Text(
-                        '${elapsed.months} oy  '
-                        '${elapsed.days} kun',
+                        '${l10n.months(elapsed.months)}  '
+                        '${l10n.days(elapsed.days)}',
                         style: theme.textTheme.titleLarge,
                       ),
 
@@ -140,7 +132,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 24),
 
                 Text(
-                  'Qiziqarli statistika',
+                  l10n.interestingStatistics,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -155,32 +147,40 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       children: [
                         _InsightRow(
                           icon: Icons.favorite,
-                          text:
-                              '≈ ${_formatNumber(birthdayInsights.heartbeats)} marta yurak urgan',
+                          text: l10n.heartbeats(
+                            _formatNumber(birthdayInsights.heartbeats),
+                          ),
                         ),
 
                         const Divider(),
 
                         _InsightRow(
                           icon: Icons.air,
-                          text:
-                              '≈ ${_formatNumber(birthdayInsights.breaths)} marta nafas olindi',
+                          text: l10n.breaths(
+                            _formatNumber(birthdayInsights.breaths),
+                          ),
                         ),
 
                         const Divider(),
 
                         _InsightRow(
                           icon: Icons.public,
-                          text:
-                              '≈ ${_formatNumber(birthdayInsights.earthRotations.round())} marta yer o‘z o‘qi atrofida aylandi',
+                          text: l10n.earthRotations(
+                            _formatNumber(
+                              birthdayInsights.earthRotations.round(),
+                            ),
+                          ),
                         ),
 
                         const Divider(),
 
                         _InsightRow(
                           icon: Icons.wb_sunny,
-                          text:
-                              '≈ ${_formatNumber(birthdayInsights.orbitalDistanceKm.round())} km masofani yer bilan birga bosib o‘tildi',
+                          text: l10n.orbitalDistance(
+                            _formatNumber(
+                              birthdayInsights.orbitalDistanceKm.round(),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -191,7 +191,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               const SizedBox(height: 24),
 
               Text(
-                'Boshlangan sana',
+                l10n.startDate,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -212,7 +212,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 24),
 
                 Text(
-                  'Izoh',
+                  l10n.description,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -237,10 +237,7 @@ class _InsightRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const _InsightRow({
-    required this.icon,
-    required this.text,
-  });
+  const _InsightRow({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -249,10 +246,7 @@ class _InsightRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 28,
-        ),
+        Icon(icon, size: 28),
 
         const SizedBox(width: 16),
 

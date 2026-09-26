@@ -8,6 +8,6 @@ void main() {
   ) async {
     await tester.pumpWidget(const QanchaVaqtOtdiApp());
 
-    expect(find.text('Qancha vaqt o‘tdi?'), findsOneWidget);
+    expect(find.text('How Much Time Has Passed?'), findsOneWidget);
   });
 }

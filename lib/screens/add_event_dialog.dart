@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/event.dart';
 import '../models/event_category.dart';
 
 Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
+  final l10n = AppLocalizations.of(context)!;
+
   final titleController = TextEditingController(text: event?.title ?? '');
 
   final descriptionController = TextEditingController(
@@ -32,7 +35,7 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
           }
 
           return AlertDialog(
-            title: Text(isEditing ? 'Voqeani tahrirlash' : 'Yangi voqea'),
+            title: Text(isEditing ? l10n.editEventTitle : l10n.newEventTitle),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -42,31 +45,29 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
                     controller: titleController,
                     autofocus: !isEditing,
                     textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Voqea nomi',
-                      hintText: 'Masalan: O‘g‘lim tug‘ilgan kun',
-                      prefixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.eventName,
+                      hintText: l10n.eventNameHint,
+                      prefixIcon: const Icon(Icons.edit),
+                      border: const OutlineInputBorder(),
                     ),
                   ),
-
                   const SizedBox(height: 16),
-
                   DropdownButtonFormField<EventCategory>(
                     initialValue: selectedCategory,
-                    decoration: const InputDecoration(
-                      labelText: 'Kategoriya',
-                      prefixIcon: Icon(Icons.category),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.category,
+                      prefixIcon: const Icon(Icons.category),
+                      border: const OutlineInputBorder(),
                     ),
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: EventCategory.general,
-                        child: Text('Oddiy voqea'),
+                        child: Text(l10n.generalEvent),
                       ),
                       DropdownMenuItem(
                         value: EventCategory.birthday,
-                        child: Text('Tug‘ilgan kun'),
+                        child: Text(l10n.birthday),
                       ),
                     ],
                     onChanged: (value) {
@@ -77,9 +78,7 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
                       }
                     },
                   ),
-
                   const SizedBox(height: 16),
-
                   Row(
                     children: [
                       Expanded(
@@ -102,9 +101,7 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
                           label: Text(formatDate(selectedDate)),
                         ),
                       ),
-
                       const SizedBox(width: 12),
-
                       Expanded(
                         child: OutlinedButton.icon(
                           onPressed: () async {
@@ -125,33 +122,29 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 16),
-
                   TextField(
                     controller: descriptionController,
                     maxLines: 3,
                     textInputAction: TextInputAction.newline,
-                    decoration: const InputDecoration(
-                      labelText: 'Qisqa izoh',
-                      hintText: 'Masalan: Oilamizga yangi quvonch keldi',
-                      prefixIcon: Icon(Icons.notes),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.shortDescription,
+                      hintText: l10n.shortDescriptionHint,
+                      prefixIcon: const Icon(Icons.notes),
+                      border: const OutlineInputBorder(),
                       alignLabelWithHint: true,
                     ),
                   ),
                 ],
               ),
             ),
-
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Bekor qilish'),
+                child: Text(l10n.cancel),
               ),
-
               FilledButton.icon(
                 onPressed: () {
                   final title = titleController.text.trim();
@@ -179,7 +172,7 @@ Future<Event?> showAddEventDialog(BuildContext context, {Event? event}) async {
                   );
                 },
                 icon: const Icon(Icons.save),
-                label: const Text('Saqlash'),
+                label: Text(l10n.save),
               ),
             ],
           );
