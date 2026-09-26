@@ -156,7 +156,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         _InsightRow(
                           icon: Icons.favorite,
                           text:
-                              '≈ ${_formatNumber(birthdayInsights.heartbeats)} marta yuragingiz urgan',
+                              '≈ ${_formatNumber(birthdayInsights.heartbeats)} marta yurak urgan',
                         ),
 
                         const Divider(),
@@ -164,7 +164,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         _InsightRow(
                           icon: Icons.air,
                           text:
-                              '≈ ${_formatNumber(birthdayInsights.breaths)} marta nafas olgansiz',
+                              '≈ ${_formatNumber(birthdayInsights.breaths)} marta nafas olindi',
                         ),
 
                         const Divider(),
@@ -172,7 +172,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         _InsightRow(
                           icon: Icons.public,
                           text:
-                              '≈ ${_formatNumber(birthdayInsights.earthRotations.round())} marta Yer o‘z o‘qi atrofida aylangan',
+                              '≈ ${_formatNumber(birthdayInsights.earthRotations.round())} marta yer o‘z o‘qi atrofida aylandi',
                         ),
 
                         const Divider(),
@@ -180,7 +180,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         _InsightRow(
                           icon: Icons.wb_sunny,
                           text:
-                              '≈ ${_formatNumber(birthdayInsights.orbitalDistanceKm.round())} km masofani Yer bilan birga bosib o‘tgansiz',
+                              '≈ ${_formatNumber(birthdayInsights.orbitalDistanceKm.round())} km masofani yer bilan birga bosib o‘tildi',
                         ),
                       ],
                     ),
