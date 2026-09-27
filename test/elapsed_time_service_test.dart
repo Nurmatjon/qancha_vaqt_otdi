@@ -18,6 +18,23 @@ void main() {
       expect(result.seconds, 0);
     });
 
+    test(
+      'boshlanish va tugash vaqti bir xil bo‘lsa barcha qiymatlar 0 bo‘ladi',
+      () {
+        final start = DateTime(2025, 6, 15, 14, 30, 45);
+        final end = start;
+
+        final result = ElapsedTimeService.calculate(start, end);
+
+        expect(result.years, 0);
+        expect(result.months, 0);
+        expect(result.days, 0);
+        expect(result.hours, 0);
+        expect(result.minutes, 0);
+        expect(result.seconds, 0);
+      },
+    );
+
     test('bir oy va bir kunni to‘g‘ri hisoblaydi', () {
       final start = DateTime(2025, 1, 10, 12, 0, 0);
       final end = DateTime(2025, 2, 11, 12, 0, 0);
