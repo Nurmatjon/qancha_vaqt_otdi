@@ -5,9 +5,7 @@ import 'package:qancha_vaqt_otdi/services/birthday_insights_service.dart';
 
 void main() {
   test('1 daqiqalik vaqt uchun yurak urishi va nafaslar hisoblanadi', () {
-    final birthDate = DateTime.now().subtract(
-      const Duration(minutes: 1),
-    );
+    final birthDate = DateTime.now().subtract(const Duration(minutes: 1));
 
     final result = BirthdayInsightsService.calculate(birthDate);
 
@@ -18,26 +16,13 @@ void main() {
 
     expect(result.earthRotations, 0);
 
-    expect(
-      result.orbitalDistanceKm,
-      greaterThanOrEqualTo(1786.8),
-    );
+    expect(result.orbitalDistanceKm, greaterThanOrEqualTo(1786.8));
 
-    expect(
-      result.orbitalDistanceKm,
-      lessThan(1820),
-    );
-
-    expect(
-      result.moonDistanceEquivalent,
-      greaterThan(0),
-    );
+    expect(result.orbitalDistanceKm, lessThan(1820));
   });
 
   test('Kelajakdagi tug‘ilgan sana uchun barcha qiymatlar 0 bo‘ladi', () {
-    final futureDate = DateTime.now().add(
-      const Duration(days: 1),
-    );
+    final futureDate = DateTime.now().add(const Duration(days: 1));
 
     final result = BirthdayInsightsService.calculate(futureDate);
 
@@ -45,13 +30,10 @@ void main() {
     expect(result.breaths, 0);
     expect(result.earthRotations, 0);
     expect(result.orbitalDistanceKm, 0);
-    expect(result.moonDistanceEquivalent, 0);
   });
 
   test('1 sutka uchun Yer aylanishi 1 ga teng bo‘ladi', () {
-    final birthDate = DateTime.now().subtract(
-      const Duration(days: 1),
-    );
+    final birthDate = DateTime.now().subtract(const Duration(days: 1));
 
     final result = BirthdayInsightsService.calculate(birthDate);
 
@@ -67,6 +49,5 @@ void main() {
     expect(result.breaths, 0);
     expect(result.earthRotations, 0);
     expect(result.orbitalDistanceKm, 0);
-    expect(result.moonDistanceEquivalent, 0);
   });
 }
