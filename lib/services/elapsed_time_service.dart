@@ -1,20 +1,4 @@
-class ElapsedTime {
-  final int years;
-  final int months;
-  final int days;
-  final int hours;
-  final int minutes;
-  final int seconds;
-
-  const ElapsedTime({
-    required this.years,
-    required this.months,
-    required this.days,
-    required this.hours,
-    required this.minutes,
-    required this.seconds,
-  });
-}
+import '../models/elapsed_time.dart';
 
 class ElapsedTimeService {
   static ElapsedTime calculate(DateTime start, DateTime end) {
@@ -37,9 +21,7 @@ class ElapsedTimeService {
       cursor = _addYears(start, years);
     }
 
-    int months =
-      (end.year - cursor.year) * 12 +
-      (end.month - cursor.month);
+    int months = (end.year - cursor.year) * 12 + (end.month - cursor.month);
 
     DateTime monthCursor = _addMonths(cursor, months);
 
@@ -68,12 +50,11 @@ class ElapsedTimeService {
   static DateTime _addYears(DateTime date, int years) {
     final targetYear = date.year + years;
     final maxDay = _daysInMonth(targetYear, date.month);
-    final targetDay =
-      date.month == 2 && date.day == 29 && maxDay == 28
-          ? 28
-          : date.day > maxDay
-              ? maxDay
-              : date.day;
+    final targetDay = date.month == 2 && date.day == 29 && maxDay == 28
+        ? 28
+        : date.day > maxDay
+        ? maxDay
+        : date.day;
 
     return DateTime(
       targetYear,

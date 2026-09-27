@@ -122,4 +122,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get save => 'Saqlash';
+
+  @override
+  String get share => 'Ulashish';
 }

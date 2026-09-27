@@ -26,5 +26,6 @@
   "birthday": "Birthday",
   "shortDescription": "Short description",
   "shortDescriptionHint": "Example: A new joy came into our family",
-  "save": "Save"
+  "save": "Save",
+  "share": "Share"
 }

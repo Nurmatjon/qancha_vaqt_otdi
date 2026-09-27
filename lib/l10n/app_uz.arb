@@ -26,5 +26,6 @@
   "birthday": "Tug‘ilgan kun",
   "shortDescription": "Qisqa izoh",
   "shortDescriptionHint": "Masalan: Oilamizga yangi quvonch keldi",
-  "save": "Saqlash"
+  "save": "Saqlash",
+  "share": "Ulashish"
 }

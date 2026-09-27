@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../l10n/app_localizations.dart';
+import '../models/birthday_insights.dart';
+import '../models/elapsed_time.dart';
 import '../models/event.dart';
 import '../models/event_category.dart';
 import '../services/birthday_insights_service.dart';
 import '../services/elapsed_time_service.dart';
-import '../l10n/app_localizations.dart';
+import '../services/event_share_service.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final Event event;
@@ -57,6 +61,25 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     return buffer.toString();
   }
 
+  Future<void> _shareEvent(
+    BuildContext context,
+    ElapsedTime elapsed,
+    BirthdayInsights? birthdayInsights,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+
+    final shareText = EventShareService.buildShareText(
+      event: widget.event,
+      elapsed: elapsed,
+      l10n: l10n,
+      birthdayInsights: birthdayInsights,
+    );
+
+    await SharePlus.instance.share(
+      ShareParams(text: shareText, subject: widget.event.title),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -73,7 +96,16 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.event.title)),
+      appBar: AppBar(
+        title: Text(widget.event.title),
+        actions: [
+          IconButton(
+            onPressed: () => _shareEvent(context, elapsed, birthdayInsights),
+            icon: const Icon(Icons.share),
+            tooltip: l10n.share,
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
