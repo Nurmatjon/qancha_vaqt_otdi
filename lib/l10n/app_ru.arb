@@ -27,5 +27,12 @@
   "shortDescription": "Краткое описание",
   "shortDescriptionHint": "Например: В нашей семье появилась новая радость",
   "save": "Сохранить",
-  "share": "Поделиться"
+  "share": "Поделиться",
+  "backup": "Резервная копия",
+  "exportBackup": "Экспорт резервной копии",
+  "importBackup": "Импорт резервной копии",
+  "importBackupTitle": "Импорт резервной копии",
+  "importBackupQuestion": "Как импортировать резервную копию?",
+  "addBackup": "Добавить",
+  "replaceBackup": "Заменить"
 }

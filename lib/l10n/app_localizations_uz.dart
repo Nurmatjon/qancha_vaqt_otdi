@@ -125,4 +125,25 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get share => 'Ulashish';
+
+  @override
+  String get backup => 'Zaxira nusxa';
+
+  @override
+  String get exportBackup => 'Zaxira nusxasini eksport qilish';
+
+  @override
+  String get importBackup => 'Zaxira nusxasini import qilish';
+
+  @override
+  String get importBackupTitle => 'Zaxira nusxasini import qilish';
+
+  @override
+  String get importBackupQuestion => 'Zaxira nusxasini qanday import qilmoqchisiz?';
+
+  @override
+  String get addBackup => 'Qo‘shish';
+
+  @override
+  String get replaceBackup => 'Almashtirish';
 }

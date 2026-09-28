@@ -125,4 +125,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get share => 'Share';
+
+  @override
+  String get backup => 'Backup';
+
+  @override
+  String get exportBackup => 'Export backup';
+
+  @override
+  String get importBackup => 'Import backup';
+
+  @override
+  String get importBackupTitle => 'Import backup';
+
+  @override
+  String get importBackupQuestion => 'How do you want to import the backup?';
+
+  @override
+  String get addBackup => 'Add';
+
+  @override
+  String get replaceBackup => 'Replace';
 }

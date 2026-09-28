@@ -27,5 +27,12 @@
   "shortDescription": "Short description",
   "shortDescriptionHint": "Example: A new joy came into our family",
   "save": "Save",
-  "share": "Share"
+  "share": "Share",
+  "backup": "Backup",
+  "exportBackup": "Export backup",
+  "importBackup": "Import backup",
+  "importBackupTitle": "Import backup",
+  "importBackupQuestion": "How do you want to import the backup?",
+  "addBackup": "Add",
+  "replaceBackup": "Replace"
 }

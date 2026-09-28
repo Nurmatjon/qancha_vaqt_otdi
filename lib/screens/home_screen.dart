@@ -9,6 +9,7 @@ import '../models/event_category.dart';
 import 'event_detail_screen.dart';
 import '../services/event_storage_service.dart';
 import '../services/elapsed_time_service.dart';
+import '../services/event_backup_service.dart';
 
 class HomeScreen extends StatefulWidget {
   final Future<void> Function(String languageCode) onLocaleChanged;
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Event> _events = [];
   final EventStorageService _storageService = EventStorageService();
+  final EventBackupService _backupService = EventBackupService();
 
   bool _isLoading = true;
 
@@ -85,6 +87,116 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       await _saveEvents();
+    }
+  }
+
+  Future<String?> _showImportModeDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.importBackupTitle),
+          content: Text(
+            l10n.importBackupQuestion,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'cancel');
+              },
+              child: Text(l10n.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'add');
+              },
+              child: Text(l10n.addBackup),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(context, 'replace');
+              },
+              child: Text(l10n.replaceBackup),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showBackupMenu() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    final action = await showModalBottomSheet<String>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.upload_file),
+                title: Text(l10n.exportBackup),
+                onTap: () => Navigator.pop(context, 'export'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.download),
+                title: Text(l10n.importBackup),
+                onTap: () => Navigator.pop(context, 'import'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (!mounted || action == null) {
+      return;
+    }
+
+    if (action == 'export') {
+      final jsonString = _backupService.exportEvents(_events);
+
+      await _backupService.saveBackupFile(jsonString);
+
+      return;
+    }
+
+    if (action == 'import') {
+      final jsonString = await _backupService.pickBackupFile();
+
+      if (!mounted || jsonString == null) {
+        return;
+      }
+
+      final importedEvents = _backupService.importEvents(jsonString);
+
+      if (!mounted) {
+        return;
+      }
+
+      final importMode = await _showImportModeDialog();
+
+      if (!mounted || importMode == null || importMode == 'cancel') {
+        return;
+      }
+
+      if (importMode == 'add') {
+        setState(() {
+          _events.addAll(importedEvents);
+        });
+      } else if (importMode == 'replace') {
+        setState(() {
+          _events
+            ..clear()
+            ..addAll(importedEvents);
+        });
+      }
+
+      await _saveEvents();
+
+      return;
     }
   }
 
@@ -168,6 +280,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         actions: [
+          IconButton(
+            onPressed: _showBackupMenu,
+            icon: const Icon(Icons.backup_outlined),
+            tooltip: 'Backup',
+          ),
           PopupMenuButton<String>(
             onSelected: widget.onLocaleChanged,
             itemBuilder: (context) => const [

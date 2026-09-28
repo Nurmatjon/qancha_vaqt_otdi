@@ -27,5 +27,12 @@
   "shortDescription": "Qisqa izoh",
   "shortDescriptionHint": "Masalan: Oilamizga yangi quvonch keldi",
   "save": "Saqlash",
-  "share": "Ulashish"
+  "share": "Ulashish",
+  "backup": "Zaxira nusxa",
+  "exportBackup": "Zaxira nusxasini eksport qilish",
+  "importBackup": "Zaxira nusxasini import qilish",
+  "importBackupTitle": "Zaxira nusxasini import qilish",
+  "importBackupQuestion": "Zaxira nusxasini qanday import qilmoqchisiz?",
+  "addBackup": "Qo‘shish",
+  "replaceBackup": "Almashtirish"
 }

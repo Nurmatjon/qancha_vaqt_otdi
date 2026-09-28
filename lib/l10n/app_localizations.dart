@@ -264,6 +264,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share'**
   String get share;
+
+  /// No description provided for @backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backup;
+
+  /// No description provided for @exportBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup'**
+  String get exportBackup;
+
+  /// No description provided for @importBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get importBackup;
+
+  /// No description provided for @importBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get importBackupTitle;
+
+  /// No description provided for @importBackupQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you want to import the backup?'**
+  String get importBackupQuestion;
+
+  /// No description provided for @addBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addBackup;
+
+  /// No description provided for @replaceBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get replaceBackup;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

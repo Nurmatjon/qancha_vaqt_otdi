@@ -131,4 +131,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get share => 'Поделиться';
+
+  @override
+  String get backup => 'Резервная копия';
+
+  @override
+  String get exportBackup => 'Экспорт резервной копии';
+
+  @override
+  String get importBackup => 'Импорт резервной копии';
+
+  @override
+  String get importBackupTitle => 'Импорт резервной копии';
+
+  @override
+  String get importBackupQuestion => 'Как импортировать резервную копию?';
+
+  @override
+  String get addBackup => 'Добавить';
+
+  @override
+  String get replaceBackup => 'Заменить';
 }
