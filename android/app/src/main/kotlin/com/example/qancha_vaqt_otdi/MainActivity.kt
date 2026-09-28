@@ -1,4 +1,4 @@
-package com.example.qancha_vaqt_otdi
+package com.nurmatjon.qanchavaqtotdi
 
 import io.flutter.embedding.android.FlutterActivity
 
